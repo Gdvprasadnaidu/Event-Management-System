@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import java.util.Calendar
@@ -16,9 +17,10 @@ import java.util.Locale
 
 abstract class BaseEventsFragment : Fragment() {
     protected lateinit var eventsListView: ListView
-    protected lateinit var emptyView: TextView
+    protected lateinit var searchView: SearchView
     protected lateinit var dbHelper: EventDatabaseHelper
-    protected val events = mutableListOf<Event>()
+    protected val allEvents = mutableListOf<Event>() // All events fetched from DB
+    protected val filteredEvents = mutableListOf<Event>() // Events to be displayed
     protected lateinit var eventsAdapter: EventsAdapter
 
     override fun onCreateView(
@@ -33,21 +35,51 @@ abstract class BaseEventsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         eventsListView = view.findViewById(R.id.eventsListView)
-        emptyView = view.findViewById(R.id.emptyView)
+        searchView = view.findViewById(R.id.searchView)
         dbHelper = EventDatabaseHelper(requireContext())
 
-        eventsAdapter = EventsAdapter(requireContext(), events) { event ->
+        eventsAdapter = EventsAdapter(requireContext(), filteredEvents) { event ->
             showEditDialog(event)
             true
         }
 
         eventsListView.adapter = eventsAdapter
-        eventsListView.emptyView = emptyView
 
-        loadEvents()
+        loadEvents() // Load initial data
+        // Setup search functionality
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                filterEvents(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Reset to all events when text is cleared
+                if (newText.isNullOrEmpty()) {
+                    filterEvents("") // Passing an empty string resets the list
+                } else {
+                    filterEvents(newText)
+                }
+                return true
+            }
+        })
     }
 
     abstract fun loadEvents()
+
+    private fun filterEvents(query: String?) {
+        filteredEvents.clear()
+        if (query.isNullOrEmpty()) {
+            filteredEvents.addAll(allEvents) // Show all events when query is empty
+        } else {
+            val lowerCaseQuery = query.toLowerCase(Locale.getDefault())
+            filteredEvents.addAll(allEvents.filter { event ->
+                event.name.toLowerCase(Locale.getDefault()).contains(lowerCaseQuery)
+            })
+        }
+        eventsAdapter.notifyDataSetChanged()
+    }
 
     protected fun showEditDialog(event: Event) {
         val dialogView = LayoutInflater.from(requireContext())

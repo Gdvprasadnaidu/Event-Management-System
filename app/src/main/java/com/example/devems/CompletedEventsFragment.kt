@@ -6,16 +6,18 @@ import java.util.Locale
 
 class CompletedEventsFragment : BaseEventsFragment() {
     override fun loadEvents() {
-        events.clear()
-        val allEvents = dbHelper.getAllEvents()
+        allEvents.clear()
         val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(
             SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
         )
 
-        events.addAll(allEvents.filter { event ->
+        allEvents.addAll(dbHelper.getAllEvents().filter { event ->
             val eventDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(event.date)
             eventDate?.before(today) ?: false
-        })
+        }) // Fetch completed events
+        filteredEvents.clear()
+        filteredEvents.addAll(allEvents) // Initially display completed events
         eventsAdapter.notifyDataSetChanged()
     }
 }
+
