@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.TextView
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -16,11 +15,11 @@ import java.util.Calendar
 import java.util.Locale
 
 abstract class BaseEventsFragment : Fragment() {
-    protected lateinit var eventsListView: ListView
-    protected lateinit var searchView: SearchView
+    private lateinit var eventsListView: ListView
+    private lateinit var searchView: SearchView
     protected lateinit var dbHelper: EventDatabaseHelper
-    protected val allEvents = mutableListOf<Event>() // All events fetched from DB
-    protected val filteredEvents = mutableListOf<Event>() // Events to be displayed
+    protected val allEvents = mutableListOf<Event>()
+    protected val filteredEvents = mutableListOf<Event>()
     protected lateinit var eventsAdapter: EventsAdapter
 
     override fun onCreateView(
@@ -45,8 +44,8 @@ abstract class BaseEventsFragment : Fragment() {
 
         eventsListView.adapter = eventsAdapter
 
-        loadEvents() // Load initial data
-        // Setup search functionality
+        loadEvents()
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -55,9 +54,8 @@ abstract class BaseEventsFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Reset to all events when text is cleared
                 if (newText.isNullOrEmpty()) {
-                    filterEvents("") // Passing an empty string resets the list
+                    filterEvents("")
                 } else {
                     filterEvents(newText)
                 }
@@ -71,17 +69,17 @@ abstract class BaseEventsFragment : Fragment() {
     private fun filterEvents(query: String?) {
         filteredEvents.clear()
         if (query.isNullOrEmpty()) {
-            filteredEvents.addAll(allEvents) // Show all events when query is empty
+            filteredEvents.addAll(allEvents)
         } else {
-            val lowerCaseQuery = query.toLowerCase(Locale.getDefault())
+            val lowerCaseQuery = query.lowercase(Locale.getDefault())
             filteredEvents.addAll(allEvents.filter { event ->
-                event.name.toLowerCase(Locale.getDefault()).contains(lowerCaseQuery)
+                event.name.lowercase(Locale.getDefault()).contains(lowerCaseQuery)
             })
         }
         eventsAdapter.notifyDataSetChanged()
     }
 
-    protected fun showEditDialog(event: Event) {
+    private fun showEditDialog(event: Event) {
         val dialogView = LayoutInflater.from(requireContext())
             .inflate(R.layout.dialog_edit_event, null)
 
