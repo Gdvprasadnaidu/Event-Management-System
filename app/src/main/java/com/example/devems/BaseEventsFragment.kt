@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import java.util.Calendar
 import java.util.Locale
 
-abstract class BaseEventsFragment : Fragment(), SearchableFragment {
+abstract class BaseEventsFragment : Fragment() {
     protected lateinit var eventsListView: ListView
     protected lateinit var emptyView: TextView
     protected lateinit var dbHelper: EventDatabaseHelper
@@ -48,17 +48,6 @@ abstract class BaseEventsFragment : Fragment(), SearchableFragment {
     }
 
     abstract fun loadEvents()
-
-    override fun onSearch(query: String) {
-        val filteredList = events.filter {
-            it.name.contains(query, ignoreCase = true)
-        }
-        eventsAdapter = EventsAdapter(requireContext(), filteredList) { event ->
-            showEditDialog(event)
-            true
-        }
-        eventsListView.adapter = eventsAdapter
-    }
 
     protected fun showEditDialog(event: Event) {
         val dialogView = LayoutInflater.from(requireContext())
