@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import java.util.Calendar
@@ -36,6 +37,8 @@ abstract class BaseEventsFragment : Fragment() {
         eventsListView = view.findViewById(R.id.eventsListView)
         searchView = view.findViewById(R.id.searchView)
         dbHelper = EventDatabaseHelper(requireContext())
+        val emptyView: TextView = view.findViewById(R.id.emptyView)
+        eventsListView.emptyView = emptyView
 
         eventsAdapter = EventsAdapter(requireContext(), filteredEvents) { event ->
             showEditDialog(event)
