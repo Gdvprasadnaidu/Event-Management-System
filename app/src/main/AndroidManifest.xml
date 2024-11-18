@@ -24,7 +24,7 @@
 
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".UserNavigation"
@@ -33,7 +33,7 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".CreateEvent"
@@ -42,7 +42,7 @@
         <receiver android:name=".NotificationReceiver" />
 
         <activity
-            android:name=".DashboardActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
