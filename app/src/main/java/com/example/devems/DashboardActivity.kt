@@ -63,12 +63,10 @@ class DashboardActivity : AppCompatActivity() {
             toggleFabMenu()
         }
 
-        // Handle info button click
         findViewById<ImageButton>(R.id.infoButton).setOnClickListener {
             showInfoDialog()
         }
 
-        // Handle rating button click
         findViewById<ImageButton>(R.id.ratingButton).setOnClickListener {
             showRatingDialog()
         }

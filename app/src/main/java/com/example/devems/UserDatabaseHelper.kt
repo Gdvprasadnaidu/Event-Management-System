@@ -14,7 +14,7 @@ class UserDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
         private const val COLUMN_ID = "id"
         private const val COLUMN_USERNAME = "username"
         private const val COLUMN_PASSWORD = "password"
-        private const val COLUMN_PHONE_NUMBER = "phone_number" // Removed role column
+        private const val COLUMN_PHONE_NUMBER = "phone_number"
     }
 
     override fun onCreate(db: SQLiteDatabase) {

@@ -48,11 +48,9 @@ class UserNavigation : AppCompatActivity(), OnMapReadyCallback {
             navigateToLocation(locationName)
         }
 
-        // Initialize MapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
-        // Initialize location services
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         requestLocationPermission()
 
@@ -65,7 +63,6 @@ class UserNavigation : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        // Add TextWatcher to detect when user stops typing
         locationEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -116,7 +113,7 @@ class UserNavigation : AppCompatActivity(), OnMapReadyCallback {
                 val address = addresses[0]
                 val latLng = LatLng(address.latitude, address.longitude)
                 googleMap?.apply {
-                    clear() // Clear previous markers
+                    clear()
                     addMarker(MarkerOptions().position(latLng).title(locationName))
                     animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                 }
@@ -141,10 +138,9 @@ class UserNavigation : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         MapsInitializer.initialize(this)
         googleMap = map
-        getCurrentLocation() // Show user's current location initially
+        getCurrentLocation()
     }
 
-    // Manage MapView lifecycle
     override fun onResume() {
         super.onResume()
         mapView.onResume()

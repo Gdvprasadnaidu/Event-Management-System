@@ -14,7 +14,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var confirmPasswordEditText: EditText
     private lateinit var enterCodeEditText: EditText
     private lateinit var idEditText: EditText
-    private lateinit var phoneNumberEditText: EditText  // Added phone number field
+    private lateinit var phoneNumberEditText: EditText
     private lateinit var signupButton: Button
 
     @SuppressLint("MissingInflatedId")
@@ -27,7 +27,7 @@ class SignupActivity : AppCompatActivity() {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText)
         enterCodeEditText = findViewById(R.id.enterCodeEditText)
         idEditText = findViewById(R.id.idEditText)
-        phoneNumberEditText = findViewById(R.id.phoneNumberEditText)  // Initialize phone number field
+        phoneNumberEditText = findViewById(R.id.phoneNumberEditText)
         signupButton = findViewById(R.id.signupButton)
 
         signupButton.setOnClickListener { handleSignup() }
@@ -39,7 +39,7 @@ class SignupActivity : AppCompatActivity() {
         val confirmPassword = confirmPasswordEditText.text.toString().trim()
         val enterCode = enterCodeEditText.text.toString().trim()
         val idText = idEditText.text.toString().trim()
-        val phoneNumber = phoneNumberEditText.text.toString().trim()  // Get phone number
+        val phoneNumber = phoneNumberEditText.text.toString().trim()
 
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || idText.isEmpty() || phoneNumber.isEmpty()) {
             Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT).show()
@@ -68,7 +68,7 @@ class SignupActivity : AppCompatActivity() {
             return
         }
 
-        val isAdded = dbHelper.addUser(id, username, password, phoneNumber)  // Pass phone number to addUser
+        val isAdded = dbHelper.addUser(id, username, password, phoneNumber)
         if (isAdded) {
             Toast.makeText(this, "Signup successful! Please login.", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@SignupActivity, LoginActivity::class.java))

@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         val username = usernameEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
 
-        // Basic validation
+
         if (idText.isEmpty() || username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please enter all details", Toast.LENGTH_SHORT).show()
             return
@@ -52,10 +52,8 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        // Validate ID, username, and password
         val isValidUser = dbHelper.validateUser(id, username, password)
         if (isValidUser) {
-            // Navigate to the admin dashboard
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
             finish()

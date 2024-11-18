@@ -38,7 +38,6 @@ class EventsAdapter(
             context.startActivity(intent)
         }
 
-        // Set long click listener for the entire view
         view.setOnLongClickListener {
             onLongClickListener(event)
         }
